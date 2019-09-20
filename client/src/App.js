@@ -11,6 +11,9 @@ import { axiosWithAuth } from './utils/axiosWithAuth';
 function App() {
   const [colorList, setColorList] = useState([]);
   const [flag, setFlag] = useState(false)
+  
+  // console.log(setFlag);
+  
   // useEffect(()=> {
   //   axiosWithAuth()
   //   .get('/colors')
@@ -35,7 +38,7 @@ const handleFlag = () => {
         <Switch>
           <PrivateRoute exact path="/bubblePage" 
           // render={props => {
-          //   return <BubblePage handleFlag={handleFlag}/>}}
+          //   return <BubblePage {...props}/>}}
             component={BubblePage} 
             />
           <Route exact path="/" component={LoginF} />

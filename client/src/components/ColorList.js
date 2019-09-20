@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
+// import ColorList from './ColorList';
 
 const initialColor = {
   color: "",
@@ -23,6 +24,7 @@ useEffect(() => {
     setColorToEdit(colorToUpdate);
   }
 }, [colors, match]);
+console.log('this is line 27',colors);
 
 
 
@@ -50,7 +52,7 @@ useEffect(() => {
     <div className="colors-wrap">
       <p>colors</p>
       <ul>
-        {colors.map(color => (
+        {colors && colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
               <span className="delete" onClick={() => deleteColor(color)}>
