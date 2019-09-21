@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
-// import ColorList from './ColorList';
-// import { ColorContext } from '../ColorContext';
 
 const initialColor = {
   color: "",
@@ -9,11 +7,6 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors, match, history, location}) => {
-// const [flag, setFlag] = useContext(ColorContext);
-// console.log(flag);
-// const handleFlag = () => {
-//   setFlag(!flag);
-// }
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -57,7 +50,7 @@ console.log('this is line 27',colors);
     <div className="colors-wrap">
       <p>colors</p>
       <ul>
-        {colors && colors.map(color => (
+        {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
               <span className="delete" onClick={() => deleteColor(color)}>
