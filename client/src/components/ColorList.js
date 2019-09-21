@@ -6,7 +6,9 @@ const initialColor = {
   code: { hex: "" }
 };
 
-const ColorList = ({ colors, updateColors, match, history, location}) => {
+const ColorList = (props) => {
+  const{colors, updateColors, match, history, location, flagChange}= props
+  console.log(props);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -33,8 +35,7 @@ console.log('this is line 27',colors);
     .then(res => {
       console.log(res.data);
       setColorToEdit(res.data)
-      // handleFlag();
-
+      flagChange();
     })
     .catch(err => console.log(err.response));
     // Make a put request to save your updated color
@@ -44,6 +45,14 @@ console.log('this is line 27',colors);
 
   const deleteColor = color => {
     // make a delete request to delete this color
+    axiosWithAuth()
+    .delete(`/colors/${color.id}`)
+    .then(res => {
+      flagChange();
+    })
+    .catch(err => {
+      console.log(err.response);
+    });
   };
 
   return (
