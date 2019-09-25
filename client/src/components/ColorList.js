@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useContext } from "react";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const initialColor = {
   color: "",
   code: { hex: "" }
 };
 
-const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
+const ColorList = (props) => {
+  const{colors, updateColors, match, history, location, flagChange}= props
+  console.log(props);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -16,8 +17,27 @@ const ColorList = ({ colors, updateColors }) => {
     setColorToEdit(color);
   };
 
-  const saveEdit = e => {
+useEffect(() => {
+  const id = match.params.id;
+  const colorToUpdate = colors.find(theColor => `${theColor.id}` === id);
+  if(colorToUpdate){
+    setColorToEdit(colorToUpdate);
+  }
+}, [colors, match]);
+console.log('this is line 27',colors);
+
+
+
+  const saveEdit = (e) => {
     e.preventDefault();
+    axiosWithAuth()
+    .put(`/colors/${colorToEdit.id}`, colorToEdit)
+    .then(res => {
+      console.log(res.data);
+      setColorToEdit(res.data)
+      flagChange();
+    })
+    .catch(err => console.log(err.response));
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
@@ -25,6 +45,14 @@ const ColorList = ({ colors, updateColors }) => {
 
   const deleteColor = color => {
     // make a delete request to delete this color
+    axiosWithAuth()
+    .delete(`/colors/${color.id}`)
+    .then(res => {
+      flagChange();
+    })
+    .catch(err => {
+      console.log(err.response);
+    });
   };
 
   return (
